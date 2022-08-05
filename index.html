@@ -5,23 +5,40 @@
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <link href="styles.css" rel="stylesheet">
+        <script defer src="https://pyscript.net/alpha/pyscript.js"></script>
     </head>
     <body>
         <div class="crossword-board-container">
 
             <div class="crossword-board">
                 <!-- ROW 1 -->
-                <input id="item1-1" class="crossword-board__item" type="text" minlength="1" maxlength="1" pattern="^[sS]{1}$" required="required" value="" />
-                <input id="item1-2" class="crossword-board__item" type="text" minlength="1" maxlength="1" pattern="^[hH]{1}$" required="required" value="" />
-                <input id="item1-3" class="crossword-board__item" type="text" minlength="1" maxlength="1" pattern="^[rR]{1}$" required="required" value="" />
-                <input id="item1-4" class="crossword-board__item" type="text" minlength="1" maxlength="1" pattern="^[oO]{1}$" required="required" value="" />
-                <input id="item1-5" class="crossword-board__item" type="text" minlength="1" maxlength="1" pattern="^[uU]{1}$" required="required" value="" />
-                <input id="item1-6" class="crossword-board__item" type="text" minlength="1" maxlength="1" pattern="^[dD]{1}$" required="required" value="" />
+                <input id="item1-1" class="crossword-board__item" type="text" minlength="1" maxlength="1"  required="required" value="" />
+                <input id="item1-2" class="crossword-board__item" type="text" minlength="1" maxlength="1"  required="required" value="" />
+                <input id="item1-3" class="crossword-board__item" type="text" minlength="1" maxlength="1"  required="required" value="" />
+                <input id="item1-4" class="crossword-board__item" type="text" minlength="1" maxlength="1" required="required" value="" />
+                <input id="item1-5" class="crossword-board__item" type="text" minlength="1" maxlength="1"  required="required" value="" />
+                <input id="item1-6" class="crossword-board__item" type="text" minlength="1" maxlength="1"  required="required" value="" />
                 <span class="crossword-board__item--blank" id="item1-7"></span>
                 <span class="crossword-board__item--blank" id="item1-8"></span>
-                <input id="item1-9" class="crossword-board__item" type="text" minlength="1" maxlength="1" pattern="^[eE]{1}$" required="required" value="" />            
+                <input id="item1-9" class="crossword-board__item" type="text" minlength="1" maxlength="1"  required="required" value="" />            
             
-            
+            <py-script>
+                import csv
+
+                with open('wordlist.csv') as csv_file:
+                    csv_reader = csv.reader(csv_file, delimiter=',')
+                    line_count = 0
+                    for row in csv_reader:
+                        if line_count == 0:
+                            print(f'Column names are {", ".join(row)}')
+                            line_count += 1
+                        else:
+                            print(f'\t{row[0]} works in the {row[1]} department, and was born in {row[2]}.')
+                            line_count += 1
+                    print(f'Processed {line_count} lines.')
+
+
+            </py-script>
             
             
             </div>
