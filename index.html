@@ -6,6 +6,10 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <link href="styles.css" rel="stylesheet">
         <script defer src="https://pyscript.net/alpha/pyscript.js"></script>
+        <py-env>
+        - paths:
+            - ./data.json
+        </py-env>
     </head>
     <body>
         <div class="crossword-board-container">
@@ -23,21 +27,37 @@
                 <input id="item1-9" class="crossword-board__item" type="text" minlength="1" maxlength="1"  required="required" value="" />            
             
             <py-script>
-                import csv
+                import csv 
+                import json 
+                from pyodide.http import open_url
+                import random
 
-                with open('wordlist.csv') as csv_file:
-                    csv_reader = csv.reader(csv_file, delimiter=',')
-                    line_count = 0
-                    for row in csv_reader:
-                        if line_count == 0:
-                            print(f'Column names are {", ".join(row)}')
-                            line_count += 1
-                        else:
-                            print(f'\t{row[0]} works in the {row[1]} department, and was born in {row[2]}.')
-                            line_count += 1
-                    print(f'Processed {line_count} lines.')
+                taken = []
+                isTaken = True
+
+                file = open_url("https://raw.githubusercontent.com/LyshaJaufar/crossword/master/data.json")
+                data = json.load(file)
 
 
+                for i in range(5):
+                    n = random.randint(1, len(data))
+                    while isTaken: 
+                        if len(taken) == 0:
+                            break
+                        for word in taken:
+                            if (word == data[n]["Words"]):
+                                n = random.randint(1, len(data))
+                            if (word != data[n]["Words"]): 
+                                isTaken = False
+                                break
+                                            
+                                            
+                    print(data[n]["Words"] + ": " + data[n]["Meaning"])
+                    taken.append(data[n]["Words"])
+                    isTaken = True
+                    i+=1
+
+    
             </py-script>
             
             
