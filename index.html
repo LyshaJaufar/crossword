@@ -16,15 +16,12 @@
 
             <div class="crossword-board">
                 <!-- ROW 1 -->
-                <input id="item1-1" class="crossword-board__item" type="text" minlength="1" maxlength="1"  required="required" value="" />
-                <input id="item1-2" class="crossword-board__item" type="text" minlength="1" maxlength="1"  required="required" value="" />
-                <input id="item1-3" class="crossword-board__item" type="text" minlength="1" maxlength="1"  required="required" value="" />
-                <input id="item1-4" class="crossword-board__item" type="text" minlength="1" maxlength="1" required="required" value="" />
-                <input id="item1-5" class="crossword-board__item" type="text" minlength="1" maxlength="1"  required="required" value="" />
-                <input id="item1-6" class="crossword-board__item" type="text" minlength="1" maxlength="1"  required="required" value="" />
+                
+                <input id="item1-12" class="crossword-board__item" type="text" minlength="1" maxlength="1"  required="required" value="" />
+
                 <span class="crossword-board__item--blank" id="item1-7"></span>
                 <span class="crossword-board__item--blank" id="item1-8"></span>
-                <input id="item1-9" class="crossword-board__item" type="text" minlength="1" maxlength="1"  required="required" value="" />            
+         
             
             <py-script>
                 import csv 
@@ -32,14 +29,16 @@
                 from pyodide.http import open_url
                 import random
 
+                current_words = {}
                 taken = []
                 isTaken = True
 
                 file = open_url("https://raw.githubusercontent.com/LyshaJaufar/crossword/master/data.json")
                 data = json.load(file)
 
+                board = document.getElementsByClassName("crossword-board")[0]
 
-                for i in range(5):
+                for i in range(1):
                     n = random.randint(1, len(data))
                     while isTaken: 
                         if len(taken) == 0:
@@ -51,11 +50,22 @@
                                 isTaken = False
                                 break
                                             
-                                            
-                    print(data[n]["Words"] + ": " + data[n]["Meaning"])
+                    current_words[data[n]["Words"]] = data[n]["Meaning"]
                     taken.append(data[n]["Words"])
                     isTaken = True
                     i+=1
+
+                    for x in range(len(data[n]["Words"])):
+                        inputHTML = document.createElement('input')
+                        inputHTML.id = f"item1-{x+1}"
+                        inputHTML.classList.add("crossword-board__item")
+                        inputHTML.minLength = "1"
+                        inputHTML.maxLength = "1"
+                        inputHTML.type = "text"
+                        inputHTML.setAttribute('required', "required");
+                        inputHTML.setAttribute("value", "");
+                        board.append(inputHTML)
+
 
     
             </py-script>
