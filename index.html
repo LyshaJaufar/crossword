@@ -14,15 +14,8 @@
     <body>
         <div class="crossword-board-container">
 
-            <div class="crossword-board">
-                <!-- ROW 1 -->
-                
-                <input id="item1-12" class="crossword-board__item" type="text" minlength="1" maxlength="1"  required="required" value="" />
-
-                <span class="crossword-board__item--blank" id="item1-7"></span>
-                <span class="crossword-board__item--blank" id="item1-8"></span>
-         
-            
+            <div class="crossword-board">       
+    
             <py-script>
                 import csv 
                 import json 
@@ -50,8 +43,8 @@
                                 isTaken = False
                                 break
                                             
-                    current_words[data[n]["Words"]] = data[n]["Meaning"]
-                    taken.append(data[n]["Words"])
+                    current_words[data[0]["Words"]] = data[0]["Meaning"]
+                    taken.append(data[0]["Words"])
                     isTaken = True
                     i+=1
 
@@ -64,13 +57,18 @@
                         inputHTML.type = "text"
                         inputHTML.setAttribute('required', "required");
                         inputHTML.setAttribute("value", "");
-                        board.append(inputHTML)
 
-
-    
+                        if x == 0:
+                            label = document.createElement("span")
+                            label.classList.add("crossword-board--labels")
+                            label.innerHTML = "1"
+                            inputHTML.append(label)
+                            board.append(inputHTML)
+                        else:
+                            board.append(inputHTML)
+             
             </py-script>
-            
-            
+
             </div>
         </div>
     </body>
